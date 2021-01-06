@@ -1,0 +1,107 @@
+---
+title: "ASSIGNMENT 4"
+author: "McKinley Harlett"
+date: '2021- 01-06'
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+bibliography: bibliography.bib
+---
+
+# Markdown Basics
+
+## Favorite Foods
+
+1.) Pizza
+2.) Pasta
+3.) Pickles
+
+## Images
+
+![Image from Completed Assignment 4](/Users/mckinleyharlett/Documents/Bellevue Grad Courses/Winter semester/Statistics in Data Science/GitHub Assignments/dsc520/dsc520/completed/assignment04/plots/10-all-cases-log.png)
+
+## Add a Quote
+
+A book names Scoring Wilder by R.S. Grey wrote:
+
+> She believed she could, so she did!
+
+## Add an Equation
+
+$$ y=mx+b $$
+
+## Add a Footnote
+
+This is a footnote [^1]
+[^1]: I am really enjoying this course
+
+## Add Citations
+
+* R for Everyone [see @Lander, J.P._2014]
+* Discovering Statistics Using R [see @Field, A. and Miles, J. and Field, Z_2012]
+
+# Inline Code
+
+```{r, include=FALSE}
+library(ggplot2)
+setwd("/Users/mckinleyharlett/Documents/Bellevue Grad Courses/Winter semester/Statistics in Data Science/GitHub Assignments/dsc520/dsc520/data")
+covid_df <- read.csv("nytimes/covid-19-data/us-states.csv")
+## Parse the date column using `as.Date()``
+covid_df$date <- as.Date(covid_df$date)
+## Create three dataframes named `california_df`, `ny_df`, and `florida_df`
+## containing the data from California, New York, and Florida
+california_df <- covid_df[ which( covid_df$state == "California"), ]
+ny_df <- covid_df[ which( covid_df$state == "New York"), ]
+florida_df <- covid_df[ which( covid_df$state == "Florida"), ]
+```
+
+## NY Times COVID-19 Data
+
+```{r, echo=FALSE}
+ggplot(data=florida_df, aes(x=date, group=1)) +
+  geom_line(aes(y = cases, colour = "Florida")) +
+  geom_line(data=ny_df, aes(y = cases,colour="New York")) +
+  geom_line(data=california_df, aes(y = cases, colour="California")) +
+  scale_colour_manual("",
+                      breaks = c("Florida", "New York", "California"),
+                      values = c("Dark Red", "Dark Green", "Steel Blue")) +
+  xlab(" ") + ylab("Cases") + scale_y_log10()
+```
+
+
+## R4DS Height vs Earnings
+
+```{r, echo=FALSE}
+setwd("/Users/mckinleyharlett/Documents/Bellevue Grad Courses/Winter semester/Statistics in Data Science/GitHub Assignments/dsc520/dsc520/data")
+heights_df <- read.csv("r4ds/heights.csv")
+ggplot(heights_df, aes(x=height, y=earn, col=sex)) + 
+  geom_point() + 
+  ggtitle("Height vs. Earning") + 
+  xlab("Height (Inches)") + 
+  ylab("Earnings (Dollars)")
+```
+
+
+# Tables
+
+## Knitr Table with Kable
+
+```{r}
+setwd("/Users/mckinleyharlett/Documents/Bellevue Grad Courses/Winter semester/Statistics in Data Science/GitHub Assignments/dsc520/dsc520/data")
+characters_df <- read.csv("Charactersdf.csv")
+knitr::kable(characters_df, caption = "One Ring to Rule Them All")
+```
+
+
+## Pandoc Table
+
+| Name      | Race      | In Fellowship? | Is Ring Bearer? | Age    |
+|-----------|-----------|----------------|-----------------|-------:|
+| Aragon    | Men       | Yes            | No             | 88     |
+| Bilbo        | Hobbit    | No            | Yes            | 129    |
+| Frodo        | Hobbit   | Yes           | Yes            | 51     |
+| Sam      | Hobbit   | Yes           | Yes            | 36     |
+| Sauron    | Maia     | No            | Yes            | 7052   |
+
+# References
